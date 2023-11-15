@@ -1,6 +1,7 @@
 import {Express, Request, Response} from 'express-serve-static-core';
-import { mercedesRouter } from './mercedes/mercedesController';
+import {mercedesRouter} from './mercedes/mercedesController';
 import {httpReqLogger, printCurrentDate} from './middlewares/custom-middlewares/http-request-logger';
+import {httpErrorHandlerV1} from './middlewares/custom-middlewares/http-error-handler';
 import {expressDotJsonOptions} from './middlewares/built-in-middleware-config/express.Json.config';
 import {expressDotStaticOptions} from './middlewares/built-in-middleware-config/express.static.config';
 import debug, { Debugger } from 'debug';
@@ -25,7 +26,9 @@ app.use(express.json(expressDotJsonOptions));
 // Mounting HTTP route handlers (middlewares) into the Request Processing Pipeline
 app.use('/csc536/api/mercedes', mercedesRouter);
 app.get('/hi', (req: Request, res: Response) => res.send('Hello World!'));
- 
+
+
+app.use(httpErrorHandlerV1);
 
 app.listen(port, () => {
   startupDebugger(`App Listening on port ${port}...`);

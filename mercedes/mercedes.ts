@@ -47,3 +47,19 @@ export class Mercedes {
         this.sales_id = sales_id;
     }
 }
+
+// {
+//     "vin_number": "benz-000-000-047 ",
+//     "color": "green",
+//     "model": "GLA 250 4MATIC SUV",
+//     "_year": 2023,
+//     "price": 96778.99,
+//     "transmission": "automatic",
+//     "fuel": "gas",
+//     "number_of_cylinders": 4,
+//     "mileage": 1111,
+//     "drive": "fwd",
+//     "email": null,
+//     "branch_id": 4,
+//     "sales_id": null
+// }

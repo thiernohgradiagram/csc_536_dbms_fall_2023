@@ -7,13 +7,13 @@ export function httpReqLogger(req: Request, res: Response, next: NextFunction) {
 }
 
 export const printCurrentDate = (req: Request, res: Response, next: NextFunction) => {
-    console.log(Date.now(), " :)");
+    console.log(new Date().toISOString());
     next();
 };
 
 function printInformationAboutAnIncomingRequest(req: Request) {
     let info = {
-        app: req.app,
+        //app: req.app,
         baseUrl: req.baseUrl,
         body: req.body,
         cookies: req.cookies,
