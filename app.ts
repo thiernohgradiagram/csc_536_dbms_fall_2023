@@ -14,6 +14,10 @@ const dbDebugger: Debugger = debug('app:db');
 const app: Express  = express();
 const port = process.env.PORT || 3000;
 
+// set ejs as view engine 
+app.set('views','views');
+app.set('view engine','ejs');
+
 // Mounting Custom Middlewares into the Request Processing Pipeline
 app.use(httpReqLogger, printCurrentDate);
 
@@ -22,11 +26,18 @@ app.use(httpReqLogger, printCurrentDate);
 // Mounting Built-In Middlewares into the Request Processing Pipeline
 app.use('/csc536', express.static(path.join(__dirname, 'public'), expressDotStaticOptions)); // http://localhost:3000/csc536/members.txt
 app.use(express.json(expressDotJsonOptions));
-
+app.use(express.static("public"));
 // Mounting HTTP route handlers (middlewares) into the Request Processing Pipeline
 app.use('/csc536/api/mercedes', mercedesRouter);
 app.get('/hi', (req: Request, res: Response) => res.send('Hello World!'));
 
+app.get('/login',function(req,res){
+      res.render('login/login');
+});
+
+app.get('/register',function(req,res){
+  res.render('registration/registration');
+});
 
 app.use(httpErrorHandlerV1);
 
