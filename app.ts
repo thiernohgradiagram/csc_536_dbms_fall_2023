@@ -39,6 +39,10 @@ app.get('/register',function(req,res){
   res.render('registration/registration');
 });
 
+app.get('/mainpage',function(req,res){
+  res.render('mainpage/mainpage');
+});
+
 app.use(httpErrorHandlerV1);
 
 app.listen(port, () => {
