@@ -1,6 +1,7 @@
 body {
     font-family: "Oxygen", sans-serif;
     color: #050505;
+    overflow-y: scroll;
   }
   
   *,
@@ -11,7 +12,8 @@ body {
   
   .main {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
+    
   }
   
   .cards {
