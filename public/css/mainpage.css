@@ -19,13 +19,12 @@
 
 }
 
-.container {
+.containers {
   background: #191919;
   min-height: 100vh;
   font-family: Montserrat, sans-serif;
   background-image: url("../assets/images/background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
 }
 
 nav a {
