@@ -17,8 +17,10 @@
           </nav>
            
          <div class= 'containers'> 
+          
            <section id= 'first'>
-            <%- include('../account/account.ejs') %>
+            <%- include('../account/account.ejs',{data:user_data}) %>
+            
            </section>
            
            <section id= 'second'>
