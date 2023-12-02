@@ -1,0 +1,38 @@
+<%- include('../mainpage/mainpage.ejs') %>
+<div class="row">
+    <div class="col-lg-12">
+        <form id="msform" name="register" method="POST" action="/api/account">
+            <!-- progressbar -->
+            <!-- fieldsets -->
+            <fieldset>
+                <h2 class="fs-title">Branch Details</h2>
+                <h3 class="fs-subtitle"></h3>
+                <input type="text" name="branch_name" placeholder="Branch Name" />
+                <input type="text" name="branch_number" placeholder="Branch Number" />
+              </fieldset>
+        
+            <fieldset>
+              <h2 class="fs-title">Manager</h2>
+             <% var data =['issah']; if (data.length != 0 ) {%>
+                  <select>
+                    <% for(manager in data){ %>
+                      <option value="<%= data[manager] %>"><%= data[manager] %></option>
+                    <% } %>
+                  </select>
+              <% }  %>
+             
+              
+            </fieldset>
+            <fieldset>
+              <h2 class="fs-title">Branch Address</h2>
+              <h3 class="fs-subtitle"></h3>
+              <input type="text" name="state" placeholder="State" />
+              <input type="text" name="city" placeholder="City" />
+              <input type="text" name="street_name" placeholder="Street Name" />
+              <input type="text" name="zip_code" placeholder="zip Code" />
+              <input type="submit" class="submit action-button"/>
+            </fieldset>
+          </form>
+    </div>
+</div>
+

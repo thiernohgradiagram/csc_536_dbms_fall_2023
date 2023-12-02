@@ -1,6 +1,7 @@
 import {Express, Request, Response} from 'express-serve-static-core';
 import {mercedesRouter} from './mercedes/mercedesController';
 import { accountRouter } from './account/accountController';
+import { branchRouter } from './branch/branchController';
 import {httpReqLogger, printCurrentDate} from './middlewares/custom-middlewares/http-request-logger';
 import {httpErrorHandlerV1} from './middlewares/custom-middlewares/http-error-handler';
 import {expressDotJsonOptions} from './middlewares/built-in-middleware-config/express.Json.config';
@@ -55,6 +56,7 @@ app.use(express.static("public"));
 // Mounting HTTP route handlers (middlewares) into the Request Processing Pipeline
 app.use('/csc536/api/mercedes', mercedesRouter);
 app.use('/api/account',accountRouter);
+app.use('/api/branch',branchRouter);
 
 
 app.get('/hi', (req: Request, res: Response) => res.send('Hello World!'));
@@ -68,6 +70,22 @@ app.get('/register',function(req, res){
   res.render('registration/registration');
 });
 
+app.get('/profile',(req: Request, res: Response, next: NextFunction)=>{
+  var email:string = "";
+  if (req.query.email!=undefined){
+    email = req.query.email?.toString();
+  }
+   
+  getUsersByEmail(email)
+.then((result: [RowDataPacket[], FieldPacket[]])=>{
+  var data = result[0][0];
+  res.render('account/account.ejs');
+}).catch((error:any)=>next(error));
+  
+
+ 
+});
+
 app.get('/mainpage',(req: Request, res: Response, next: NextFunction)=>{
   var email:string = "";
   if (req.query.email!=undefined){
@@ -77,11 +95,64 @@ app.get('/mainpage',(req: Request, res: Response, next: NextFunction)=>{
   getUsersByEmail(email)
 .then((result: [RowDataPacket[], FieldPacket[]])=>{
   var data = result[0][0];
-  res.render('mainpage/mainpage',{user_data:data});
+  res.render('mainpage/mainpage.ejs');
 }).catch((error:any)=>next(error));
-  
+});
 
- 
+app.get('/addbranch',(req: Request, res: Response, next: NextFunction)=>{
+  var email:string = "";
+  if (req.query.email!=undefined){
+    email = req.query.email?.toString();
+  }
+   
+  getUsersByEmail(email)
+.then((result: [RowDataPacket[], FieldPacket[]])=>{
+  var data = result[0][0];
+  res.render('branch/addbranch.ejs');
+}).catch((error:any)=>next(error));
+
+});
+
+app.get('/purchase',(req: Request, res: Response, next: NextFunction)=>{
+  var email:string = "";
+  if (req.query.email!=undefined){
+    email = req.query.email?.toString();
+  }
+   
+  getUsersByEmail(email)
+.then((result: [RowDataPacket[], FieldPacket[]])=>{
+  var data = result[0][0];
+  res.render('branch/addbranch.ejs');
+}).catch((error:any)=>next(error));
+
+});
+
+app.get('/branch',(req: Request, res: Response, next: NextFunction)=>{
+  var email:string = "";
+  if (req.query.email!=undefined){
+    email = req.query.email?.toString();
+  }
+   
+  getUsersByEmail(email)
+.then((result: [RowDataPacket[], FieldPacket[]])=>{
+  var data = result[0][0];
+  res.render('branch/branch.ejs');
+}).catch((error:any)=>next(error));
+
+});
+
+app.get('/mercedes',(req: Request, res: Response, next: NextFunction)=>{
+  var email:string = "";
+  if (req.query.email!=undefined){
+    email = req.query.email?.toString();
+  }
+   
+  getUsersByEmail(email)
+.then((result: [RowDataPacket[], FieldPacket[]])=>{
+  var data = result[0][0];
+  res.render('mercedes/mercedes.ejs');
+}).catch((error:any)=>next(error));
+
 });
 
 
