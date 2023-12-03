@@ -13,15 +13,18 @@
         
             <fieldset>
               <h2 class="fs-title">Manager</h2>
-             <% var data =['issah']; if (data.length != 0 ) {%>
-                  <select>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                </div>
+                <% var data =['issah']; if (data.length != 0 ) {%>
+                <select class="custom-select" id="inputGroupSelect01">
                     <% for(manager in data){ %>
                       <option value="<%= data[manager] %>"><%= data[manager] %></option>
                     <% } %>
-                  </select>
-              <% }  %>
-             
-              
+                </select>
+                <% }  %>
+              </div>
             </fieldset>
             <fieldset>
               <h2 class="fs-title">Branch Address</h2>

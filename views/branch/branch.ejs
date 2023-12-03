@@ -1,55 +1,45 @@
 <%- include('../mainpage/mainpage.ejs') %>
 <div class="main">
     <ul class="cards">
+    <% for(i in branches){ %> 
       <li class="cards_item">
         <div class="card">
           <div class="card_image">
+            <span class="note"><%- branches[i]['branch_number'] %></span>
             <img src="assets/images/logo.jpg" alt="mixed vegetable salad in a mason jar." />
           </div>
           <div class="card_content">
-            <h2 class="card_title">Branch Name</h2>
+            <h2 class="card_title"><%- branches[i]['branch_name'] %></h2>
             <div class="card_text">
-              <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of
-                leafy greens and seasonal vegetables, fresh from the farmer's market.
-              </p>
+                <div class="row">                   
+                    <p class="col-6"> <i class="fas fa-car icon"></i></p>
+                    <p class="col-6 badge branch"> <%- branches[i]['total'] %></p>                  
+                </div>
+                <div class="row">
+                    <p class="col-6"> <i class="fas fa-user icon"></i></p>
+                    <p class="col-6 branch"> <%- branches[i]['first_name'] %> <%- branches[i]['last_name'] %></p>
+                </div>
               <hr />
-              <p>Served with your choice of dressing on the side: <strong>housemade ranch</strong>, <strong>cherry balsamic
-                  vinaigrette</strong>, <strong>creamy chipotle</strong>, <strong>avocado green goddess</strong>, or <strong>honey mustard</strong>. Add your choice
-                of protein for $2 more.
-              </p>
+              <div class="row">
+                <p class="col-6"><i class="fas fa-road icon"></i></p>
+                <p class="col-6 branch"> <%- branches[i]['street_name'] %></p>
+             </div>
+             <div class="row">
+                <p class="col-6"><i class="fas fa-city icon"></i></p>
+                <p class="col-6 branch">  <%- branches[i]['city'] %></p>
+             </div>
+             <div class="row">
+                <p class="col-6"><i class="fas fa-flag-usa icon"></i></p>
+                <p class="col-6 branch">  <%- branches[i]['state'] %></p>
+             </div>
+             <div class="row">
+                <p class="col-6"><i class="fas fa-code icon"></i></p>
+                <p class="col-6 branch"> <%- branches[i]['zip_code'] %></p>
+             </div>
             </div>
           </div>
         </div>
       </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <img src="assets/images/logo.jpg" alt="a Reuben sandwich on wax paper." />
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Branch Name</h2>
-            <div class="card_text">
-              <p>All great meals take time, but this one takes it to the next level! More than 650 hours
-                of fermenting, brining, aging, and curing goes into each and every one of our legendary
-                Reuben sandwiches.
-              </p>
-              <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye
-                bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the
-                pickle. The only thing we didn't make on the premises is the toothpick ( but we're
-                looking into how to do that).
-              </p>
-              <hr />
-              <p>This unforgettable sandwich has all of the classic Reuben elements: <strong>corned beef</strong>, <strong>rye
-                  bread</strong>, <strong>creamy Russian dressing</strong>, <strong>sauerkraut</strong>, plus a <strong>sweet gherkin pickle</strong>.
-                No substitions please!
-              </p>
-              <p>Add a side of <strong>french fries</strong> or <strong>sweet potato fries</strong> for $2 more, or our
-                <strong>housemade pub chips</strong> for $1.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
+      <% } %>
     </ul>
 </div>

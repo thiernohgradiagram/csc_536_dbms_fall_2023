@@ -13,6 +13,7 @@ import config from 'config';
 import { getUsersByEmail } from './account/accountService';
 import { FieldPacket, RowDataPacket } from 'mysql2';
 import { User } from './account/user';
+import { getAllBranches } from './branch/branchService';
 
 
 const startupDebugger: Debugger = debug('app:startup');
@@ -100,17 +101,8 @@ app.get('/mainpage',(req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.get('/addbranch',(req: Request, res: Response, next: NextFunction)=>{
-  var email:string = "";
-  if (req.query.email!=undefined){
-    email = req.query.email?.toString();
-  }
-   
-  getUsersByEmail(email)
-.then((result: [RowDataPacket[], FieldPacket[]])=>{
-  var data = result[0][0];
-  res.render('branch/addbranch.ejs');
-}).catch((error:any)=>next(error));
-
+    
+res.render('branch/addbranch.ejs');
 });
 
 app.get('/purchase',(req: Request, res: Response, next: NextFunction)=>{
@@ -128,15 +120,11 @@ app.get('/purchase',(req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.get('/branch',(req: Request, res: Response, next: NextFunction)=>{
-  var email:string = "";
-  if (req.query.email!=undefined){
-    email = req.query.email?.toString();
-  }
-   
-  getUsersByEmail(email)
+  getAllBranches()
 .then((result: [RowDataPacket[], FieldPacket[]])=>{
-  var data = result[0][0];
-  res.render('branch/branch.ejs');
+  const [data] = result as RowDataPacket[]; 
+  
+  res.render('branch/branch.ejs',{branches:data});
 }).catch((error:any)=>next(error));
 
 });

@@ -14,9 +14,7 @@ mercedesRouter.get('/', async (req: Request, res: Response, next: NextFunction) 
     getAllMercedes()
     .then((result: [RowDataPacket[], FieldPacket[]])=> {
         const [data] = result as RowDataPacket[];                   // result[0]
-        const tableDescription: FieldPacket[] = result[1];          // result[1]
-        console.log(tableDescription[0]);
-        console.log(data);
+                 
         res.status(200).write(JSON.stringify(data, null, 2));
         res.end();
     }).catch((error: any) => next(error));
