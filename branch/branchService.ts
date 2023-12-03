@@ -29,13 +29,22 @@ export async function getBranchById(id: number) {
     return await pool.query<RowDataPacket[]>(sql, [id]);
 }
 
-export async function updateBranch(id: string, branch: Branch) {
+export async function getBranchesWithoutManagers() {
     const sql: string =`
-    SELECT * 
-    FROM mercedes
-    WHERE _year = ? AND color= ?`;
+    select * from branch where email is null`;
     return await pool.query<RowDataPacket[]>(sql, []);
 }
+
+export async function getAllUsersWithoutBranch() {
+    const sql: string = `
+    select first_name,last_name,email 
+    from _user
+    where email not in 
+    (select email from manager)`;
+    return await pool.query<RowDataPacket[]>(sql);
+}
+
+
 
 
 // INSERT: use ResultSetHeader

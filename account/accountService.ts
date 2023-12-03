@@ -1,4 +1,5 @@
 import {pool} from "../db.connection.config";
+import { Manager } from "./manager";
 import {User} from "./user";
 import {ResultSetHeader, RowDataPacket} from "mysql2";
 
@@ -35,6 +36,26 @@ export async function insertUser(user: User) {
     return await pool.query<ResultSetHeader>(sql, Object.values(user));
     
 }
+
+export async function insertManager(manager: Manager) {
+    const sql: string = `
+        INSERT INTO manager
+        VALUES(?, ?)
+    `;
+    return await pool.query<ResultSetHeader>(sql, Object.values(manager));
+}
+
+export async function updateBranchManagerEmail(email: string,branch_id:number) {
+    const sql: string = `
+        UPDATE branch
+        SET email = ? 
+        WHERE branch_id = ?
+    `;
+    return await pool.query<ResultSetHeader>(sql, [email,branch_id]);
+}
+
+
+
 
 // Update mercedes: use ResultSetHeader
 

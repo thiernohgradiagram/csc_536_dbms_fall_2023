@@ -1,0 +1,40 @@
+<%- include('../mainpage/mainpage.ejs') %>
+<form id="msform" name="addmanager" method="POST" action="/api/account/addmanager">
+    <!-- progressbar -->
+
+    <!-- fieldsets -->
+    <fieldset>
+        <h2 class="fs-title">Personal Details</h2>
+        <h3 class="fs-subtitle"></h3>
+        <input type="text" required name="first_name" placeholder="First Name" />
+        <input type="text" required name="last_name" placeholder="Last Name" />
+        <input type="text" required name="middle_name" placeholder="Middle Name" />
+    </fieldset>
+    <fieldset>
+      <h2 class="fs-title">Email and Password</h2>
+      <h3 class="fs-subtitle"></h3>
+      <input type="text" required name="email" placeholder="Email" />
+      <input type="password" required name="password" placeholder="Password" />
+      <%  if (branches.length != 0 ) {%>
+        <select name="branch_id" class="custom-select" id="inputGroupSelect01">
+            <% for(i in branches){ %>
+              <option value="<%= branches[i]['branch_id'] %>"><%= branches[i]['branch_name']%></option>
+            <% } %>
+        </select>
+     <% } %>
+    </fieldset>
+
+    <fieldset>
+      <h2 class="fs-title">Address</h2>
+      <h3 class="fs-subtitle"></h3>
+      <input type="text" readonly name="state" placeholder="State" />
+      <input type="text" required  name="city" placeholder="City" />
+      <input type="text" required ="street_name" placeholder="Street Name" />
+      <input type="text" required ="house_number" placeholder="House Number" />
+      <input type="text" required ="zip_code" placeholder="zip Code" />
+      <%  if (branches.length != 0 ) {%>
+        <input type="submit"   class="submit action-button"/>
+     <% }else { %> <p style="color: red;">No available branches</p> <% } %>
+      
+    </fieldset>
+  </form>

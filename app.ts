@@ -10,10 +10,10 @@ import debug, { Debugger } from 'debug';
 import express, { NextFunction } from 'express';
 import path from 'path';
 import config from 'config';
-import { getUsersByEmail } from './account/accountService';
+import { getAllUsers, getUsersByEmail } from './account/accountService';
 import { FieldPacket, RowDataPacket } from 'mysql2';
 import { User } from './account/user';
-import { getAllBranches } from './branch/branchService';
+import { getAllBranches, getAllUsersWithoutBranch, getBranchesWithoutManagers } from './branch/branchService';
 
 
 const startupDebugger: Debugger = debug('app:startup');
@@ -72,6 +72,12 @@ app.use('/api/branch',branchRouter);
 
 app.get('/hi', (req: Request, res: Response) => res.send('Hello World!'));
 
+app.get('/mainpage',(req: Request, res: Response, next: NextFunction)=>{
+  var email:string = "";
+  if (req.query.email!=undefined){
+    email = req.query.email?.toString();
+  }});
+
 app.get('/login',function(req,res){
       res.render('login/login');
 });
@@ -93,53 +99,34 @@ app.get('/profile',(req: Request, res: Response, next: NextFunction)=>{
   res.render('account/account.ejs');
 }).catch((error:any)=>next(error));
   
-
- 
 });
 
-app.get('/mainpage',(req: Request, res: Response, next: NextFunction)=>{
-  var email:string = "";
-  if (req.query.email!=undefined){
-    email = req.query.email?.toString();
-  }
-   
-  getUsersByEmail(email)
-.then((result: [RowDataPacket[], FieldPacket[]])=>{
-  var data = result[0][0];
-  res.render('mainpage/mainpage.ejs');
-}).catch((error:any)=>next(error));
-});
-
-app.get('/addbranch',(req: Request, res: Response, next: NextFunction)=>{
-    session.user="gyanko";
-    
-res.render('branch/addbranch.ejs');
-});
-
-app.get('/purchase',(req: Request, res: Response, next: NextFunction)=>{
-  var email:string = "";
-  if (req.query.email!=undefined){
-    email = req.query.email?.toString();
-  }
-   
-  getUsersByEmail(email)
-.then((result: [RowDataPacket[], FieldPacket[]])=>{
-  var data = result[0][0];
-  res.render('branch/addbranch.ejs');
-}).catch((error:any)=>next(error));
-
-});
 
 app.get('/branch',(req: Request, res: Response, next: NextFunction)=>{
   
-  getAllBranches()
+getAllBranches()
 .then((result: [RowDataPacket[], FieldPacket[]])=>{
   const [data] = result as RowDataPacket[]; 
-  
-  res.render('branch/branch.ejs',{branches:data});
+  res.render("branch/branch.ejs",{branches:data})
 }).catch((error:any)=>next(error));
 
 });
+
+
+app.get('/managebranch',(req: Request, res: Response, next: NextFunction)=>{
+  
+  res.render('branch/managebranch.ejs');
+});
+
+app.get('/addmanager',(req: Request, res: Response, next: NextFunction)=>{
+      getBranchesWithoutManagers()
+      .then((result:[RowDataPacket[], FieldPacket[]])=>{
+        const [branches] = result as RowDataPacket[]; 
+          res.render("account/addmanager.ejs",{branches:branches});
+        })
+});
+
+
 
 app.get('/mercedes',(req: Request, res: Response, next: NextFunction)=>{
   var email:string = "";

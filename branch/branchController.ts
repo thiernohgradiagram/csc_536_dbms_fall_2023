@@ -1,6 +1,6 @@
 import express from 'express';
 import {Request, Response, Router, NextFunction} from 'express-serve-static-core';
-import { getAllBranches, getBranchByEmail, updateBranch, insertBranch } from './branchService';
+import { getAllBranches, getBranchByEmail, getBranchesWithoutManagers, insertBranch } from './branchService';
 import {expressDotRouterOptions} from '../middlewares/built-in-middleware-config/express.Router.config';
 import { RowDataPacket, FieldPacket, ResultSetHeader } from 'mysql2';
 import { Branch } from './branch';
@@ -57,7 +57,7 @@ branchRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
    };
    
     insertBranch(requestBody)
-    .then((result: [ResultSetHeader, FieldPacket[]]) => res.redirect('/addbranch'))
+    .then((result: [ResultSetHeader, FieldPacket[]]) => res.redirect('/branch'))
    .catch((error: any) => next(error));
 });
 

@@ -18,7 +18,6 @@ html {
 body {
   font-family: montserrat, arial, verdana;
   overflow-y: hidden;
-  background-image: url("../assets/images/background.jpg");
   background-repeat: no-repeat;
   background-size:cover;
 }
@@ -26,7 +25,6 @@ body {
 /*form styles*/
 #msform {
   width: 100%;
- 
   text-align: center;
   position:relative;
   float: left;
