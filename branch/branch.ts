@@ -4,7 +4,8 @@ export interface Branch {
     street_name: string,                      // cannot be null
     city: string,                      // cannot be null
     state: string,  
-    zip_code: number,                    // cannot be null
+    zip_code: number, 
+    branch_id : number|null,                   // cannot be null
     email :string|null            // cannot be null [manual, automatic]
                    // optional
 }
@@ -16,7 +17,8 @@ export class Branch {
         street_name: string,                      
         city: string,                      
         state: string,  
-        zip_code: number,                   
+        zip_code: number,   
+        branch_id : number | null,                
         email :string|null 
      
                     ) {
@@ -28,6 +30,7 @@ export class Branch {
         this.state = state;
         this.zip_code = zip_code;
         this.email = email;
+        this.branch_id = null;
     }
 }
 

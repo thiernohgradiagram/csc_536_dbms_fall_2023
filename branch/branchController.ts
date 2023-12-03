@@ -53,10 +53,11 @@ branchRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
         state : req.body.state,
         zip_code : req.body.zip_code,
         email : req.body.email,
+        branch_id : null,
    };
    
     insertBranch(requestBody)
-    .then((result: [ResultSetHeader, FieldPacket[]]) => res.render('/mainpage'))
+    .then((result: [ResultSetHeader, FieldPacket[]]) => res.redirect('/addbranch'))
    .catch((error: any) => next(error));
 });
 

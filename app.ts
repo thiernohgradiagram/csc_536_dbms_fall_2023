@@ -35,11 +35,21 @@ app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 
 // set session and cookie
+declare global {
+  namespace Express {
+    interface Session {
+    user?: any,
+    occupation?: string
+    }
+  }
+}
+
 app.use(session({
   secret : 'secrete',
   resave: false,
   cookie: { maxAge: 60*60*24 },
-  saveUninitialized: true
+  saveUninitialized: true,
+  user:{}
 }));
 
 
@@ -101,6 +111,7 @@ app.get('/mainpage',(req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.get('/addbranch',(req: Request, res: Response, next: NextFunction)=>{
+    session.user="gyanko";
     
 res.render('branch/addbranch.ejs');
 });
@@ -120,6 +131,7 @@ app.get('/purchase',(req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.get('/branch',(req: Request, res: Response, next: NextFunction)=>{
+  
   getAllBranches()
 .then((result: [RowDataPacket[], FieldPacket[]])=>{
   const [data] = result as RowDataPacket[]; 

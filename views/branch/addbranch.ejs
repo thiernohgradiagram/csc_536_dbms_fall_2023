@@ -1,7 +1,7 @@
 <%- include('../mainpage/mainpage.ejs') %>
 <div class="row">
     <div class="col-lg-12">
-        <form id="msform" name="register" method="POST" action="/api/account">
+        <form id="msform" name="register" method="POST" action="/api/branch">
             <!-- progressbar -->
             <!-- fieldsets -->
             <fieldset>
@@ -15,10 +15,10 @@
               <h2 class="fs-title">Manager</h2>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                  <label class="input-group-text" for="inputGroupSelect01">Manager</label>
                 </div>
-                <% var data =['issah']; if (data.length != 0 ) {%>
-                <select class="custom-select" id="inputGroupSelect01">
+                <% var data =[]; if (data.length != 0 ) {%>
+                <select name="email" class="custom-select" id="inputGroupSelect01">
                     <% for(manager in data){ %>
                       <option value="<%= data[manager] %>"><%= data[manager] %></option>
                     <% } %>

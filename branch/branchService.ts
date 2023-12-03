@@ -42,7 +42,7 @@ export async function updateBranch(id: string, branch: Branch) {
 export async function insertBranch(branch: Branch) {
     const sql: string = `
         INSERT INTO branch
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+         VALUES(?, ?, ?, ?, ?, ?, ?,?)
     `;
     return await pool.query<ResultSetHeader>(sql, Object.values(branch));
     
