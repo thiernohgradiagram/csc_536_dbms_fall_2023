@@ -1,0 +1,46 @@
+<!-- multistep form -->
+<htm>
+    <head>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+             <title>Login Form </title> 
+            <link rel="stylesheet" href="css/register.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+            <script type='text/javascript' src="js/register.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+          </head>
+    </head>
+<form id="msform" name="register" method="POST" action="/api/account">
+    <!-- progressbar -->
+
+    <!-- fieldsets -->
+    <fieldset>
+        <h2 class="fs-title">Personal Details</h2>
+        <h3 class="fs-subtitle"></h3>
+        <input type="text" name="first_name" placeholder="First Name" />
+        <input type="text" name="last_name" placeholder="Last Name" />
+        <input type="text" name="middle_name" placeholder="Middle Name" />
+      </fieldset>
+
+    <fieldset>
+      <h2 class="fs-title">Email and Password</h2>
+      <h3 class="fs-subtitle"></h3>
+      <input type="text" name="email" placeholder="Email" />
+      <input type="password" name="password" placeholder="Password" />
+      
+    </fieldset>
+    <fieldset>
+      <h2 class="fs-title">Address</h2>
+      <h3 class="fs-subtitle"></h3>
+      <input type="text" name="state" placeholder="State" />
+      <input type="text" name="city" placeholder="City" />
+      <input type="text" name="street_name" placeholder="Street Name" />
+      <input type="text" name="house_number" placeholder="House Number" />
+      <input type="text" name="zip_code" placeholder="zip Code" />
+      <input type="submit" class="submit action-button"/>
+    </fieldset>
+  </form>
+ 
+</htm>
+

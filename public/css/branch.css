@@ -1,0 +1,19 @@
+.icon{
+    font-size: 30px;
+    color: rgba(0,0,0,0.9);
+    text-decoration: none;
+    padding: 20px;
+    text-align: center;
+    padding: 10px;
+    margin-left: 10px;
+}
+.branch{
+    font-size: 40px;
+    color: #c89b3f;
+    padding: 20px;
+    text-align: center;
+    padding: 10px;
+    margin-left: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+}

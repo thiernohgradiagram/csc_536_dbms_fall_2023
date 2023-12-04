@@ -1,0 +1,109 @@
+<%- include('../mainpage/mainpage.ejs') %>
+<div class="row" style="margin-left: 100px;">
+    <div class="col-md-11 col-lg-11">
+        <div class="main">
+            <ul class="cards">
+            <% for(i in branches){ %> 
+              <li class="cards_item">
+                <div class="card">
+                  <div class="card_image">
+                    <span class="note"><%- branches[i]['branch_number'] %></span>
+                    <img src="assets/images/logo.jpg" alt="mixed vegetable salad in a mason jar." />
+                  </div>
+                  <div class="card_content">
+                    <h2 class="card_title"><%- branches[i]['branch_name'] %></h2>
+                    <div class="card_text">
+                        <div class="row">                   
+                            <p class="col-6"> <i class="fas fa-car icon"></i></p>
+                            <p class="col-6 badge branch"> <%- branches[i]['total'] %></p>                  
+                        </div>
+                        <div class="row">
+                            <p class="col-6"> <i class="fas fa-user icon"></i></p>
+                            <p class="col-6 branch"> <%- branches[i]['first_name'] %> <%- branches[i]['last_name'] %></p>
+                        </div>
+                      <hr />
+                      <div class="row">
+                        <p class="col-6"><i class="fas fa-road icon"></i></p>
+                        <p class="col-6 branch"> <%- branches[i]['street_name'] %></p>
+                     </div>
+                     <div class="row">
+                        <p class="col-6"><i class="fas fa-city icon"></i></p>
+                        <p class="col-6 branch">  <%- branches[i]['city'] %></p>
+                     </div>
+                     <div class="row">
+                        <p class="col-6"><i class="fas fa-flag-usa icon"></i></p>
+                        <p class="col-6 branch">  <%- branches[i]['state'] %></p>
+                     </div>
+                     <div class="row">
+                        <p class="col-6"><i class="fas fa-code icon"></i></p>
+                        <p class="col-6 branch"> <%- branches[i]['zip_code'] %></p>
+                     </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <% } %>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-1 col-lg-1">
+        <button type="button" class="btn btn-dark" style="margin-top: 20px;" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-plus"></i>
+          </button>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Branch</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form id="msform" name="register" method="POST" action="/api/branch" style="width: 100%;">
+                <!-- progressbar -->
+                <!-- fieldsets -->
+                
+                    <fieldset  style="width: 100%;margin-left: 0%;">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6"><input type="text" required name="branch_name" placeholder="Branch Name" /></div>
+                            <div class="col-lg-6 col-md-6"><input type="text" required name="branch_number" placeholder="Branch Number" /></div>
+                        </div>
+                    </fieldset>
+                
+                <!-- <fieldset style="width: 100%;margin-left: 0%;">
+                    <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Manager</label>
+                    </div>
+                    <% var data =[]; if (data.length != 0 ) {%>
+                    <select name="email" class="custom-select" id="inputGroupSelect01">
+                        <% for(manager in data){ %>
+                            <option value="<%= data[manager] %>"><%= data[manager] %></option>
+                        <% } %>
+                    </select>
+                    <% }  %>
+                    </div>
+                </fieldset> -->
+                <fieldset style="width: 100%;margin-left: 0%;">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6"><input type="text" required name="state" placeholder="State" /></div>
+                        <div class="col-md-6 col-lg-6"><input type="text" required name="city" placeholder="City" /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6"><input type="text" required name="street_name" placeholder="Street Name" /></div>
+                        <div class="col-md-6 col-lg-6"><input type="text" required name="zip_code" placeholder="zip Code" /></div>
+                    </div>
+
+                    <input type="submit" class="submit action-button"/>
+                </fieldset>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

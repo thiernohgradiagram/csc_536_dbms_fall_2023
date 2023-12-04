@@ -1,0 +1,22 @@
+<div class= 'containers'> 
+          
+           <section id= 'profile'>
+            <%- include('../account/account.ejs',{data:user_data}) %>
+            
+           </section>
+           
+           <section id= 'mercedes'>
+            <%- include('../mercedes/mercedes.ejs') %>
+           </section>
+           
+          <section id= 'purchase'>
+            <h1>Third</h1>
+           </section>
+           
+          <section id= 'branch'>
+            <%- include('../branch/branch.ejs') %>
+           </section>
+           <section id= 'addbranch'>
+            <%- include('../branch/addbranch.ejs', {managers:[]}) %>
+           </section>
+         </div>

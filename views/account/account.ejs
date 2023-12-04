@@ -1,0 +1,29 @@
+<%- include('../mainpage/mainpage.ejs') %>
+<form id="msform" name="user" method="POST" action="api/account">
+    <!-- progressbar -->
+
+    <!-- fieldsets -->
+    <fieldset>
+        <h2 class="fs-title">Personal Details</h2>
+        <h3 class="fs-subtitle"></h3>
+        <input type="text" name="first_name" value="<%= typeof user_data != 'undefined' ? user_data['first_name'] : '' %>" placeholder="First Name" />
+        <input type="text" name="last_name"  value="<%= typeof user_data != 'undefined' ? user_data['last_name'] : '' %>" placeholder="Last Name" />
+        <input type="text" name="middle_name" value="<%= typeof user_data != 'undefined' ? user_data['middle_name'] : '' %>" placeholder="Middle Name" />
+        <input type="text" name="phone" value="<%= typeof user_data != 'undefined' ? user_data['phone'] : '' %>" placeholder="Phone" />
+        <input type="text" name="deposit" value="<%= typeof user_data != 'undefined' ? user_data['account_balance'] : '' %>" placeholder="Account Balance" />
+    </fieldset>
+
+    <fieldset>
+      <h2 class="fs-title">Address</h2>
+      <h3 class="fs-subtitle"></h3>
+      <input type="text" name="state" value="<%= typeof user_data != 'undefined' ? user_data['state'] : '' %>" placeholder="State" />
+      <input type="text" name="city" value="<%= typeof user_data != 'undefined' ? user_data['city'] : '' %>" placeholder="City" />
+      <input type="text" name="street_name" value="<%= typeof user_data != 'undefined' ? user_data['street_name'] : '' %>" placeholder="Street Name" />
+      <input type="text" name="zip_code" value="<%= typeof user_data != 'undefined' ? user_data['zip_code'] : '' %>" placeholder="zip Code" />
+      <input type="text" name="house_number" value="<%= typeof user_data != 'undefined' ? user_data['house_number'] : '' %>" placeholder="House Number" />
+    </fieldset>
+    <fieldset style="margin-left: 30%;">
+        <input type="submit"  class="submit action-button" target="_top">Update</input>
+    </fieldset>
+    
+  </form>
