@@ -1,6 +1,7 @@
 import {pool} from "../db.connection.config";
 import {Mercedes} from "./mercedes";
 import {ResultSetHeader, RowDataPacket} from "mysql2";
+import { Mercedes_images } from "./mercedes_images";
 
 export async function getAllMercedes() {
     const sql: string = `
@@ -33,6 +34,14 @@ export async function insertMercedes(mercedes: Mercedes) {
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     return await pool.query<ResultSetHeader>(sql, Object.values(mercedes));
+}
+
+export async function insertMercedesImages(images: any[]) {
+    const sql: string = `
+        INSERT INTO mercedes_images (image_path,vin_number)
+        VALUES ?
+    `;
+    return await pool.query<ResultSetHeader>(sql, [images]);
 }
 
 //const mercedes1 = new Mercedes("benz-000-000-046","green","GLA 250 4MATIC SUV",2023,96778.99,"automatic","gas",4,1111,"fwd",null,4,null);

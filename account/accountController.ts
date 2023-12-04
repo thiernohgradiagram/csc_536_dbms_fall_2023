@@ -7,7 +7,7 @@ import { User } from './user';
 import { json } from 'stream/consumers';
 import { request } from 'http';
 import { Manager } from './manager';
-
+const session = require('express-session');
 export const accountRouter: Router  = express.Router(expressDotRouterOptions);
 // https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 // https://github.com/sidorares/node-mysql2/blob/HEAD/documentation/en/TypeScript-Examples.md
@@ -108,7 +108,8 @@ accountRouter.post('/login',(req: Request, res: Response, next: NextFunction)=>{
          var data = result[0];
          var pass = data.filter((x)=>x["_password"]==password.toString());
          if (pass.length==1){
-            res.redirect('/mainpage?email='+email);
+            session.user = email;
+            res.redirect('/profile?email='+email);
          }else{
             res.redirect('/login');
          }
