@@ -232,8 +232,9 @@ app.use('/graph',(req:Request,res:Response,next:NextFunction)=>{
         getStatsCount()
         .then((result: [RowDataPacket[], FieldPacket[]])=>{
           const [data] = result as RowDataPacket[];
-          console.log(data);
-          res.render("graph/graph.ejs",{stats:data,user_role:"user",msale_names:model_sales_names,msale_count:model_sales_count,branch_sales:branch_sales_names,branch_sales_count:branch_sales_count,models:model_names,model_count:model_count,branch_names:branch_names,branch_count:branch_count})
+          var email = req.session.email;
+          var role = req.session.role;
+          res.render("graph/graph.ejs",{user_email:email,user_role:role,stats:data,msale_names:model_sales_names,msale_count:model_sales_count,branch_sales:branch_sales_names,branch_sales_count:branch_sales_count,models:model_names,model_count:model_count,branch_names:branch_names,branch_count:branch_count})
         })
         
       })

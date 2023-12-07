@@ -7,7 +7,8 @@ export async function getAllBranches() {
     SELECT b.branch_name,m.branch_id,b.branch_number,b.street_name,b.city,b.state,b.zip_code, COUNT(m.branch_id) total, u.first_name,u.last_name,
     u.email FROM branch b 
     RIGHT OUTER JOIN _user u ON b.email = u.email 
-    RIGHT OUTER join mercedes m ON m.branch_id = b.branch_id
+    LEFT OUTER join mercedes m ON m.branch_id = b.branch_id
+    WHERE b.branch_name is not null
     GROUP BY m.branch_id, b.branch_name,u.first_name,b.branch_number,b.street_name,b.city,b.state,b.zip_code,u.email
         `;
     return await pool.query<RowDataPacket[]>(sql);

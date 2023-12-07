@@ -1,25 +1,40 @@
 <%- include('../mainpage/mainpage.ejs',{role:user_role}) %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<div class="row justify-content-center">
-  <div class="col-md-3 col-lg-3 card">
-    <div class="row">
-      <div class="col-md-1 col-lg-1">
-        
+<div class="row justify-content-center ml-4 pt-2">
+  <div class="col-md-2 col-lg-2 card m-1" style="height: 80px; font-size: 20px; font-family: 'Courier New', Courier, monospace;">
+      <div class="row justify-content-center text-success">
+        Total Branches
       </div>
-      <div class="col-md-1 col-lg-1">
+      <div class="row justify-content-center" style="font-size: 30px; font-weight: bolder; color:#c89b3f;">
+        <%- stats[0]['count'] %>
+      </div>
+  </div>
 
-      </div>
+  <div class="col-md-2 col-lg-2 card m-1" style="height: 80px; font-size: 20px; font-family: 'Courier New', Courier, monospace;">
+    <div class="row justify-content-center text-success">
+      Total Mercedes
+    </div>
+    <div class="row justify-content-center" style="font-size: 30px; font-weight: bolder; color:#c89b3f;">
+      <%- stats[1]['count'] %>
     </div>
   </div>
-  <div class="col-md-3 col-lg-3 card">
-    sales
+  <div class="col-md-2 col-lg-2 card m-1" style="height: 80px; font-size: 20px; font-family: 'Courier New', Courier, monospace;">
+    <div class="row justify-content-center text-success text-bold">
+      Total Users
+    </div>
+    <div class="row justify-content-center" style="font-size: 30px; font-weight: bolder; color:#c89b3f;">
+      <%- stats[2]['count'] %>
+    </div>
   </div>
-  <div class="col-md-3 col-lg-3 card">
-    mercedes
-  </div>
-  <div class="col-md-3 col-lg-3 card">
-    models
-  </div>
+  <div class="col-md-2 col-lg-2 card m-1" style="height: 80px; font-size: 20px; font-family: 'Courier New', Courier, monospace;">
+    <div class="row justify-content-center text-success">
+      Total Sales
+    </div>
+    <div class="row justify-content-center" style="font-size: 30px; font-weight: bolder; color:#c89b3f;">
+      <%- stats[3]['count'] %>
+    </div>
+</div>
+
 </div>
 <div class="row justify-content-center">
   <div class="col-md-5 col-lg-5 m-1 card">
