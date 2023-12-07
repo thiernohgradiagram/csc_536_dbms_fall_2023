@@ -15,7 +15,7 @@ import { getAllUsers, getUsersByEmail } from './account/accountService';
 import { FieldPacket, RowDataPacket } from 'mysql2';
 import { User } from './account/user';
 import { getAllBranches, getAllMercedesByManagerEmail, getAllUsersWithoutBranch, getBranchesWithoutManagers } from './branch/branchService';
-import { getAllMercedes, getMercedesByVinNumber } from './mercedes/mercedesService';
+import { getAllMercedes, getBranchAndMercedesCount, getMercedesByVinNumber } from './mercedes/mercedesService';
 import { Session } from 'express-session';
 
 
@@ -187,7 +187,18 @@ app.get('/purchase',(req:Request,res:Response,next:NextFunction)=>{
 })
 
 app.use('/graph',(req:Request,res:Response,next:NextFunction)=>{
-  res.render("graph/graph.ejs",{user_role:"user",values:["Italy","France", "Spain", "USA", "Argentina"]})
+  getBranchAndMercedesCount()
+  .then((result: [RowDataPacket[], FieldPacket[]])=>{
+    const [data] = result as RowDataPacket[];
+    var branch_names = [];
+    var branch_count = [];
+    for(var i =0; i<data.length;i++){
+      branch_names.push(data[i]['branch_name']);
+      branch_count.push(data[i]['count']);
+    }
+    res.render("graph/graph.ejs",{user_role:"user",branch_names:branch_names,branch_count:branch_count})
+  })
+  
 })
 
 

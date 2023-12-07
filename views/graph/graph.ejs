@@ -1,13 +1,50 @@
 <%- include('../mainpage/mainpage.ejs',{role:user_role}) %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-5 m-1 card">
+    <canvas id="chart1" style="width:100%;max-width:600px"></canvas>
+  </div>
+  <div class="col-md-5 col-lg-5 m-1 card">
+    <canvas id="chart2" style="width:100%;max-width:600px"></canvas>
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-5 m-1 card">
+    <canvas id="chart3" style="width:100%;max-width:600px"></canvas>
+  </div>
+  <div class="col-md-5 col-lg-5 m-1 card">
+    <canvas id="chart4" style="width:100%;max-width:600px"></canvas>
+  </div>
+</div>
 
 <script>
-const xValues =  ["<%= values %>"] ;
-const yValues = [55, 49, 44, 24, 15];
-const barColors = ["red", "green","blue","orange","brown"];
+  const xValues =  <%- JSON.stringify(branch_names) %>;
+  
+  const yValues = [<%- branch_count %>];
+  const barColors = ["red", "green","blue","orange","brown"];
 
-new Chart("myChart", {
+new Chart("chart1", {
+  type: "doughnut",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Branches And Total Mercedes Count"
+    }
+  }
+
+  
+});
+
+new Chart("chart2", {
   type: "bar",
   data: {
     labels: xValues,
@@ -22,6 +59,42 @@ new Chart("myChart", {
       display: true,
       text: "World Wine Production 2018"
     }
-  }
+  } 
+});
+
+new Chart("chart3", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "World Wine Production 2018"
+    }
+  } 
+});
+
+new Chart("chart4", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "World Wine Production 2018"
+    }
+  } 
 });
 </script>
