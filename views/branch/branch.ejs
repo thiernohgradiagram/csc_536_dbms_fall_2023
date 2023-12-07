@@ -1,4 +1,4 @@
-<%- include('../mainpage/mainpage.ejs') %>
+<%- include('../mainpage/mainpage.ejs',{role:user_role}) %>
 <div class="row" style="margin-left: 100px;">
     <div class="col-md-11 col-lg-11">
         <div class="main">
@@ -20,6 +20,10 @@
                         <div class="row">
                             <p class="col-6"> <i class="fas fa-user icon"></i></p>
                             <p class="col-6 branch"> <%- branches[i]['first_name'] %> <%- branches[i]['last_name'] %></p>
+                        </div>
+                        <div class="row">
+                            <p class="col-6"> <i class="fas fa-envelope icon"></i></p>
+                            <p class="col-6 branch"> <%- branches[i]['email'] %></p>
                         </div>
                       <hr />
                       <div class="row">

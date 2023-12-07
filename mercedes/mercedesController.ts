@@ -1,10 +1,11 @@
 import express from 'express';
 import {Request, Response, Router, NextFunction} from 'express-serve-static-core';
-import { getAllMercedes, getMercedesByVinNumber, getMercedesByYearAndColor, insertMercedes, insertMercedesImages } from './mercedesService';
+import { getAllMercedes, getMercedesByVinNumber,checkUserBalance, insertMercedes, insertMercedesImages, updateBoughtMercedes } from './mercedesService';
 import {expressDotRouterOptions} from '../middlewares/built-in-middleware-config/express.Router.config';
 import { RowDataPacket, FieldPacket, ResultSetHeader } from 'mysql2';
 import { Mercedes } from './mercedes';
 import { Mercedes_images } from './mercedes_images';
+import { updateBalance } from '../account/accountService';
 
 const multer = require("multer");
 const upload = multer({dest:"public/assets/images"})
@@ -26,46 +27,26 @@ export const mercedesRouter: Router  = express.Router(expressDotRouterOptions);
 
 // Get all mercedes from the mercedes table
 mercedesRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
-    if(JSON.stringify(req.query) === '{}') { 
+    
         getAllMercedes()
         .then((result: [RowDataPacket[], FieldPacket[]])=> {
-            const [data] = result as RowDataPacket[];                   // result[0]
-            //const tableDescription: FieldPacket[] = result[1];          // result[1]
-            //console.log(tableDescription[0]);
-            //console.log(data);
-            res.status(200).write(JSON.stringify(data, null, 2));
-            res.end();
+            const [data] = result as RowDataPacket[];                   // result[0]            
+            res.render("mercedes/mercedes.ejs",{mercedes:data});
         }).catch((error: any) => next(error));
-
-    } else {  // using query strings
-
-        const year = req.query.year as string;
-        const color = req.query.color as string;
-        
-        getMercedesByYearAndColor(year, color)
-        .then((result: [RowDataPacket[], FieldPacket[]]) => {
-            const [data] = result as RowDataPacket[];                   // result[0]
-            //const tableDescription: FieldPacket[] = result[1];          // result[1]
-            //console.log(tableDescription);
-            //console.log(data);
-            res.status(200).write(JSON.stringify(data, null, 2));
-            res.end();
-        }).catch((error: any) => next(error));
-    }
 });
 
 // Using a route parameter
-mercedesRouter.get('/:vin_number', (req: Request, res: Response, next: NextFunction) => {
-    getMercedesByVinNumber(req.params.vin_number)
-    .then((result: [RowDataPacket[], FieldPacket[]]) => {
-        const [data] = result as RowDataPacket[];                   // result[0]
-        const tableDescription: FieldPacket[] = result[1];          // result[1]
-        console.log(tableDescription);
-        console.log(data[0]);
-        res.status(200).write(JSON.stringify(data[0], null, 2));
-        res.end();
-    }).catch((error: any) => next(error));
-});
+// mercedesRouter.get('/:vin_number', (req: Request, res: Response, next: NextFunction) => {
+//     getMercedesByVinNumber(req.params.vin_number)
+//     .then((result: [RowDataPacket[], FieldPacket[]]) => {
+//         const [data] = result as RowDataPacket[];                   // result[0]
+//         const tableDescription: FieldPacket[] = result[1];          // result[1]
+//         console.log(tableDescription);
+//         console.log(data[0]);
+//         res.status(200).write(JSON.stringify(data[0], null, 2));
+//         res.end();
+//     }).catch((error: any) => next(error));
+// });
 
 mercedesRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
     // TODO: input validation with JOI
@@ -100,10 +81,45 @@ mercedesRouter.post('/upload',upload.array("files"),(req: Request, res: Response
     })
     insertMercedesImages(images)
     .then((result: [ResultSetHeader, FieldPacket[]])=>{
-        res.redirect("/managebranch"); 
+        res.redirect("/managebranch");  
     }).catch((error)=>next(error));
     
 });
+
+mercedesRouter.get('/purchase',(req:Request,res:Response,next:NextFunction)=>{
+    var email:any = "";
+    var price:any = 0;
+    var vin_number : any = ""
+    if(req.query.price != null){
+        price = req.query.price;
+    }
+
+    if(req.query.vin != null){
+        vin_number = req.query.vin;
+    }
+
+    if(req.session.email != null){
+        email = req.session.email;
+    }
+    var balance = 0;
+    
+    checkUserBalance(price,email)
+    .then((result: [RowDataPacket[], FieldPacket[]])=>{
+        const [data] = result as RowDataPacket[];
+        console.log(data[0])
+         balance = data[0]['balance'];
+        if (balance>=0){
+            updateBalance(email,balance)
+            .then((result: [ResultSetHeader, FieldPacket[]])=>{
+                updateBoughtMercedes(vin_number,email)
+                .then((result:[ResultSetHeader, FieldPacket[]])=>{
+                    req.flash("purchased","Congratulations, you just purchased a mercedes, your new balance is "+balance);
+                    res.redirect("/purchase?vin="+vin_number);
+                });
+            });
+        }
+    }).catch((error)=>next(error))
+})
 
 mercedesRouter.delete('/', (req: Request, res: Response) => {
     res.send('Got a DELETE request at /cars');

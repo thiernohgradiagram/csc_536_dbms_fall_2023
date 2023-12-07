@@ -1,4 +1,4 @@
-<%- include('../mainpage/mainpage.ejs') %>
+<%- include('../mainpage/mainpage.ejs'),{role:user_role}%>
 <div class="row">
     <div class="col-lg-12">
         <form id="msform" name="register" method="POST" action="/api/branch">

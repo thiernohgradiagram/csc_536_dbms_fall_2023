@@ -1,5 +1,4 @@
-<%- include('../mainpage/mainpage.ejs') %>
-<% if(branch_id != null){ %>
+<%- include('../mainpage/mainpage.ejs'),{role:user_role} %>
 <div class="row" style="margin-left: 100px;">
     <div class="col-md-11 col-lg-11">
         <div class="main">
@@ -12,7 +11,6 @@
                     <div class="row">      
                       <img src="assets/images/logo.jpg" alt="No images Yet" />                                                   
                     </div>
-                    
                     <%}else{%>
                       <div class="row" style="padding-bottom: 30px;">
                         <% for(i in mercedes[key]){ %>
@@ -27,30 +25,47 @@
                     <h2 class="card_title"></h2>
                     <div class="card_text">
                         <div class="row">                   
-                            <p class="col-6"><i class="fas fa-car icon"></i></p>
+                            <p class="col-6 badge branch">Vin Number</p>
                             <p class="col-6 badge branch"><%- mercedes[key][0]['vin_number'] %></p>                  
                         </div>
                         <div class="row">
-                            <p class="col-6"> <i class="fas fa-user icon"></i></p>
-                            <p class="col-6 branch"></p>
+                            <p class="col-6 badge branch"> Color </p>
+                            <p class="col-6 badge branch"><%- mercedes[key][0]['color'] %></p>
                         </div>
                       <hr />
                       <div class="row">
-                        <p class="col-6"><i class="fas fa-road icon"></i></p>
-                        <p class="col-6 branch"> </p>
+                        <p class="col-6 badge branch">Model</p>
+                        <p class="col-6 badge branch"> <%- mercedes[key][0]['model'] %></p>
                      </div>
                      <div class="row">
-                        <p class="col-6"><i class="fas fa-city icon"></i></p>
-                        <p class="col-6 branch">  </p>
+                        <p class="col-6 badge branch">Year</p>
+                        <p class="col-6 badge branch"><%- mercedes[key][0]['_year'] %></p>
                      </div>
                      <div class="row">
-                        <p class="col-6"><i class="fas fa-flag-usa icon"></i></p>
-                        <p class="col-6 branch">  </p>
+                        <p class="col-6 badge branch">Price</p>
+                        <p class="col-6 badge branch"><%- mercedes[key][0]['price'] %></p>
                      </div>
                      <div class="row">
-                        <p class="col-6"><i class="fas fa-code icon"></i></p>
-                        <p class="col-6 branch"> </p>
+                        <p class="col-6 badge branch">Transmission</p>
+                        <p class="col-6 badge branch"><%- mercedes[key][0]['transmission'] %></p>
                      </div>
+                     <div class="row">
+                      <p class="col-6 badge branch">Fuel</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['fuel'] %></p>
+                    </div>
+                    <div class="row">
+                      <p class="col-6 badge branch">Number Of Cylinders</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['number_of_cylinders'] %></p>
+                    </div>
+                    <div class="row">
+                      <p class="col-6 badge branch">Mileage</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['mileage'] %></p>
+                    </div>
+                    <div class="row">
+                      <p class="col-6 badge branch">Drive</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['drive'] %></p>
+                    </div>
+
                       <div class="row">
                         <form name="Upload" method="POST" action="api/mercedes/upload" enctype="multipart/form-data">
                           <div class="col-md-10 col-lg-10 mt-2" style="margin-bottom: 20px;">
@@ -85,7 +100,7 @@
           </button>
     </div>
     
-</div> <%}%>
+</div>
 
 
 
@@ -190,10 +205,10 @@
                               <label class="input-group-text" for="inputGroupSelect01">Year</label>
                           </div>
                           <select name="_year" required class="custom-select" id="inputGroupSelect01">                            
-                                  <option value="1">2023</option> 
-                                  <option value="2">2022</option>  
-                                  <option value="3">2021</option>  
-                                  <option value="4">2020</option>                        
+                                  <option value="2023">2023</option> 
+                                  <option value="2022">2022</option>  
+                                  <option value="2021">2021</option>  
+                                  <option value="2020">2020</option>                        
                           </select>
                         </div> 
                       </div>                 

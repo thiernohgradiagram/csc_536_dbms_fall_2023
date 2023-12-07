@@ -1,13 +1,13 @@
 import express from 'express';
 import {Request, Response, Router, NextFunction} from 'express-serve-static-core';
-import { getAllUsers, getUsersByEmail, updateUser, insertUser, insertManager, updateBranchManagerEmail } from './accountService';
+import { getAllUsers, getUsersByEmail, updateUser, insertUser, insertManager, updateBranchManagerEmail, insertBuyer, updateBalance } from './accountService';
 import {expressDotRouterOptions} from '../middlewares/built-in-middleware-config/express.Router.config';
 import { RowDataPacket, FieldPacket, ResultSetHeader } from 'mysql2';
 import { User } from './user';
 import { json } from 'stream/consumers';
 import { request } from 'http';
 import { Manager } from './manager';
-const session = require('express-session');
+import { Buyer } from './buyer';
 export const accountRouter: Router  = express.Router(expressDotRouterOptions);
 // https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 // https://github.com/sidorares/node-mysql2/blob/HEAD/documentation/en/TypeScript-Examples.md
@@ -19,7 +19,6 @@ accountRouter.get('/', async (req: Request, res: Response, next: NextFunction) =
         const [data] = result as RowDataPacket[];                   // result[0]
         const tableDescription: FieldPacket[] = result[1];          // result[1]
         
-        console.log(data);
         res.status(200).write(JSON.stringify(data, null, 2));
         res.end();
     }).catch((error: any) => next(error));
@@ -59,9 +58,47 @@ accountRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
    };
    
     insertUser(requestBody)
-    .then((result: [ResultSetHeader, FieldPacket[]]) => res.render('/login'))
+    .then((result: [ResultSetHeader, FieldPacket[]]) =>{
+        var buyer = new Buyer(0,requestBody.email);
+        insertBuyer(buyer)
+        .then((result: [ResultSetHeader, FieldPacket[]])=>res.redirect('/login'))
+        .catch((error:any)=>next(error));      
+    }
+    )
    .catch((error: any) => next(error));
 });
+
+
+accountRouter.post('/update', (req: Request, res: Response, next: NextFunction) => {
+    // TODO: input validation with JOI
+   const requestBody: User = 
+   {
+        first_name :req.body.first_name,
+        last_name : req.body.last_name,
+        middle_name : req.body.middle_name,
+        email : req.body.email,
+        house_number : req.body.house_number,
+        street_name : req.body.street_name,
+        city : req.body.city,
+        state : req.body.state,
+        zip_code : req.body.zip_code,
+        password : req.body.password
+   };
+   
+    updateUser(requestBody)
+    .then(() =>{
+        updateBalance(req.body.email,req.body.cash_balance)
+        .then((result: [ResultSetHeader, FieldPacket[]])=>{
+            req.flash('success','User Profile Updated Successfully')
+            res.redirect('/profile')
+        })
+        .catch((error:any)=>next(error));      
+    }
+    )
+   .catch((error: any) => next(error));
+});
+
+
 
 accountRouter.post('/addmanager', (req: Request, res: Response, next: NextFunction) => {
     // TODO: input validation with JOI
@@ -106,10 +143,23 @@ accountRouter.post('/login',(req: Request, res: Response, next: NextFunction)=>{
     getUsersByEmail(email)
     .then((result: [RowDataPacket[], FieldPacket[]]) => {
          var data = result[0];
-         var pass = data.filter((x)=>x["_password"]==password.toString());
-         if (pass.length==1){
-            session.user = email;
-            res.redirect('/profile?email='+email);
+         console.log(data)
+         var user_data = data.filter((x)=>x["_password"]==password.toString());
+         
+         var role:string;
+         if (user_data.length==1){
+            
+            if(user_data[0]['_role']==1){
+                role = "general";
+            }else if(user_data[0]['_role']==0){
+                role="manager"
+            }else{
+                role = "user"
+            }
+            req.session.email = user_data[0].email;
+            req.session.role = role;
+            
+            res.redirect('/profile');
          }else{
             res.redirect('/login');
          }

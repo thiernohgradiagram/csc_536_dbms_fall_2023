@@ -1,0 +1,93 @@
+<%- include('../mainpage/mainpage.ejs') %>
+<div class="row justify-content-center" style="margin-left: 30px;">
+    <div class="col-md-4 col-lg-4 pl-2 mt-4">
+        <% for(const key in mercedes){ %> 
+            <div class="card">
+                <% if(message.purchased){%>
+                    <div class="row justify-content-center">
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                         <%- message.purchased%>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    </div>
+                  <%}%>
+                <div class="card-body">
+                    <div class="row ">                   
+                        <p class="col-6 "><span class="text-dark">Vin Number</span></p>
+                        <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['vin_number'] %></span></p>                  
+                    </div> 
+                    <hr>
+                    <div class="row">
+                        <p class="col-6 "><span class="text-dark">Color</span></p>
+                        <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['color'] %></span></p>
+                    </div>
+                    <hr>
+                  <div class="row">
+                    <p class="col-6 "><span class="text-dark">Model</span></p>
+                    <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['model'] %></span></p>
+                 </div>
+                 <hr>
+                 <div class="row">
+                    <p class="col-6 "><span class="text-dark">Year</span></p>
+                    <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['_year'] %></span></p>
+                 </div>
+                 <hr>
+                 <div class="row">
+                    <p class="col-6 "><span class="text-dark">Price</span></p>
+                    <p class="col-6 "><span class="badge badge-success text-white">$ <%- mercedes[key][0]['price'] %></span></p>
+                 </div>
+                 <hr>
+                 <div class="row">
+                    <p class="col-6 "><span class="text-dark">Transmission</span></p>
+                    <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['transmission'] %></span></p>
+                 </div>
+                 <hr>
+                 <div class="row">
+                  <p class="col-6 "><span class="text-dark">Fuel</span></p>
+                  <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['fuel'] %></span></p>
+                </div>
+                <hr>
+                <div class="row">
+                  <p class="col-6 "><span class="text-dark">Number of Cylinders</span></p>
+                  <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['number_of_cylinders'] %></span></p>
+                </div>
+                <hr>
+                <div class="row">
+                  <p class="col-6 "><span class=" text-dark">Mileage</span></p>
+                  <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['mileage'] %></span></p>
+                </div>
+                <hr>
+                <div class="row">
+                  <p class="col-6 "><span class=" text-dark">Drive</span></p>
+                  <p class="col-6 "><span class="badge badge-success text-white"><%- mercedes[key][0]['drive'] %></span></p>
+                </div>
+                <hr>
+                <div class="row justify-content-center">
+                    <a href="/api/mercedes/purchase?vin=<%- mercedes[key][0]['vin_number'] %>&price=<%- mercedes[key][0]['price'] %>" class="btn btn-dark text-white">Confirm Purchase</a>
+                </div>
+
+                </div>
+            </div>
+        <% } %>
+    </div>
+    <div class="col-md-7 col-lg-7 pb-1 mt-4">
+        <% for(const key in mercedes){ %> 
+            <% if(mercedes[key].length==1){%>
+            <div class="row ">      
+                <img width="800px" src="assets/images/logo.jpg" class="img-thumbnail"  alt="No images Yet" />                                                   
+            </div>
+            <%}else{%>
+                <% for(i in mercedes[key]){ %>
+                <div class="row pt-1 justify-content-center">
+                    <img width="800px"  src="assets/images/<%- mercedes[key][i]['image_path'] %>" class="img-thumbnail"  alt="image"/>
+                <%}%>                                            
+                </div>
+            <%}%>
+        <% } %>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

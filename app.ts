@@ -15,6 +15,8 @@ import { getAllUsers, getUsersByEmail } from './account/accountService';
 import { FieldPacket, RowDataPacket } from 'mysql2';
 import { User } from './account/user';
 import { getAllBranches, getAllMercedesByManagerEmail, getAllUsersWithoutBranch, getBranchesWithoutManagers } from './branch/branchService';
+import { getAllMercedes, getMercedesByVinNumber } from './mercedes/mercedesService';
+import { Session } from 'express-session';
 
 
 const startupDebugger: Debugger = debug('app:startup');
@@ -24,7 +26,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const multer = require("multer");
 const app: Express  = express();
-
+const flash = require('connect-flash');
 const port = process.env.PORT || 3000;
 
 // set ejs as view engine 
@@ -35,29 +37,31 @@ app.set('view engine','ejs');
 app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 
-// set session and cookie
-declare global {
-  namespace Express {
-    interface session {
-    user?: any,
-    }
-  }
-}
+declare module 'express-session' {
+       interface SessionData {
+           email:string,
+           role : string
+       }
+   }
 
 app.use(session({
   secret : 'secrete',
   resave: false,
-  cookie: { maxAge: 60*60*24 },
+  cookie: { maxAge: 60*60*60*24 },
   saveUninitialized: true,
   user:{}
 }));
 const upload = multer({dest:"public/assets/images"})
 
+app.use(flash());
 
 app.use(cookieParser());
 // Mounting Custom Middlewares into the Request Processing Pipeline
 app.use(httpReqLogger, printCurrentDate);
-
+app.use(function(req,res,next){
+  res.locals.message = req.flash();
+  next();
+})
 // Mounting Third-Party Middlewares into the Request Processing Pipeline
 
 // Mounting Built-In Middlewares into the Request Processing Pipeline
@@ -89,15 +93,16 @@ app.get('/register',function(req, res){
 });
 
 app.get('/profile',(req: Request, res: Response, next: NextFunction)=>{
-  
-   if(req.query.email!=null){
-      email = req.query.email?.toString()
-   }
+  var email ="";
+  if(req.session.email !=null){
+    email = req.session.email?.toString();
+  } 
   getUsersByEmail(email)
 .then((result: [RowDataPacket[], FieldPacket[]])=>{
   const [data] = result as RowDataPacket[];
-  console.log(data);
-  res.render('account/account.ejs',{user_data:data[0],user_email:email});
+
+  var role = req.session.role;
+  res.render('account/account.ejs',{user_data:data[0],user_email:email,user_role:role});
 }).catch((error:any)=>next(error));
   
 });
@@ -108,29 +113,30 @@ app.get('/branch',(req: Request, res: Response, next: NextFunction)=>{
 getAllBranches()
 .then((result: [RowDataPacket[], FieldPacket[]])=>{
   const [data] = result as RowDataPacket[]; 
-  res.render("branch/branch.ejs",{branches:data})
+  var role = req.session.role;
+  res.render("branch/branch.ejs",{branches:data,user_role:role})
 }).catch((error:any)=>next(error));
 
 });
 
-app.post('/upload',upload.array("files"),(req:Request,res:Response,next:NextFunction)=>{
-   var files = req.files;
-    console.log(files)
-    res.status(201).send(req.body.files);
-});
+
 
 app.get('/managebranch',(req: Request, res: Response, next: NextFunction)=>{
- console.log(email)
+  var email = "";
+  if(req.session.email!=null){
+    email = req.session.email.toString();
+  }
   getAllMercedesByManagerEmail(email)
   .then((result: [RowDataPacket[], FieldPacket[]])=>{
     const [data] = result as RowDataPacket[];
     var value = JSON.parse(JSON.stringify(data,null,2))
-    console.log(value);
+
     var values = value.group((mercedes:any)=>{
         return mercedes.vin_number;
     })
-    console.log(values);
-    res.render('branch/managebranch.ejs',{mercedes:values,branch_id:data[0]['branch_id']});
+    var role = req.session.role;
+
+    res.render('branch/managebranch.ejs',{mercedes:values,user_role:role,branch_id:data[0]['branch_id']});
   }).catch((error:any)=>next(error))
   
 });
@@ -139,26 +145,50 @@ app.get('/addmanager',(req: Request, res: Response, next: NextFunction)=>{
       getBranchesWithoutManagers()
       .then((result:[RowDataPacket[], FieldPacket[]])=>{
         const [branches] = result as RowDataPacket[]; 
-          res.render("account/addmanager.ejs",{branches:branches});
+        var role = req.session.role;
+          res.render("account/addmanager.ejs",{branches:branches,user_role:role});
         }).catch((error:any)=>next(error))
 });
 
 
 
 app.get('/mercedes',(req: Request, res: Response, next: NextFunction)=>{
-  var email:string = "";
-  if (req.query.email!=undefined){
-    email = req.query.email?.toString();
-  }
-   
-  getUsersByEmail(email)
-.then((result: [RowDataPacket[], FieldPacket[]])=>{
-  var data = result[0][0];
-  res.render('mercedes/mercedes.ejs');
-}).catch((error:any)=>next(error));
+  getAllMercedes()
+        .then((result: [RowDataPacket[], FieldPacket[]])=> {
+            const [data] = result as RowDataPacket[];     
+            var values = data.group((value:any)=>{
+              return value.vin_number;
+            })      
+            var role = req.session.role;                  
+            res.render("mercedes/mercedes.ejs",{mercedes:values,user_role:role});
+        }).catch((error: any) => next(error));
 
 });
 
+app.get('/purchase',(req:Request,res:Response,next:NextFunction)=>{
+    var vin_number  = ""
+    var email = req.session.email;
+    var role = req.session.role;
+    if(req.query.vin != null){
+      vin_number = req.query.vin.toString();
+    }
+    console.log(vin_number)
+    getMercedesByVinNumber(vin_number)
+    .then((result: [RowDataPacket[], FieldPacket[]])=>{
+      const [data] = result as RowDataPacket[];
+      var mercedes = data.group((element:any)=>{
+        return element.vin_number
+      })
+      console.log(mercedes);
+      res.render('purchase/purchase.ejs',{mercedes:mercedes,user_email:email,user_role:role});
+    })
+
+    
+})
+
+app.use('/graph',(req:Request,res:Response,next:NextFunction)=>{
+  res.render("graph/graph.ejs",{user_role:"user",values:["Italy","France", "Spain", "USA", "Argentina"]})
+})
 
 
 app.use(httpErrorHandlerV1);

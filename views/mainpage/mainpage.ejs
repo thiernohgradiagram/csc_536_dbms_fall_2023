@@ -16,10 +16,12 @@
             <a href="/profile"><i class="far fa-user"></i></a>
             <a href="/mercedes"><i class="fas fa-car"></i></a>
             <a href="/purchase"><i class="fas fa-wallet"></i></a>
-            <a href="/branch"><i class="fas fa-code-branch"></i></a>
-            <a href="/managebranch"><i class="fas fa-house-user"></i></a>
-            <a href="/addmanager"><i class="fas fa-user-plus"></i></a>
+            <% if(user_role=='general'){ %><a href="/branch"><i class="fas fa-code-branch"></i></a><% } %>
+            <% if(user_role=='manager'){ %><a href="/managebranch"><i class="fas fa-house-user"></i></a><% } %>
+            <% if(user_role=='general'){ %><a href="/addmanager"><i class="fas fa-user-plus"></i></a><% } %>
           </nav>   
     </body> 
     
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts-en.common.min.js"></script>
+<script type="module" src="js/graph.js"></script>

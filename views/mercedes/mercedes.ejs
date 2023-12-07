@@ -1,234 +1,84 @@
 <%- include('../mainpage/mainpage.ejs') %>
-<div class="main">
-    <ul class="cards">
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">SUV</span>
-            <img src="assets/images/benz2.jpg" alt="mixed vegetable salad in a mason jar." />
-            <span class="card_price"><span>$</span>9</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Farmstand Salad</h2>
-            <div class="card_text">
-              <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of
-                leafy greens and seasonal vegetables, fresh from the farmer's market.
-              </p>
-              <hr />
-              <p>Served with your choice of dressing on the side: <strong>housemade ranch</strong>, <strong>cherry balsamic
-                  vinaigrette</strong>, <strong>creamy chipotle</strong>, <strong>avocado green goddess</strong>, or <strong>honey mustard</strong>. Add your choice
-                of protein for $2 more.
-              </p>
-            </div>
-          </div>
+<div class="row" style="margin-left: 100px;">
+    <div class="col-md-11 col-lg-11">
+        <div class="main">
+            <ul class="cards">
+            <% for(const key in mercedes){ %> 
+              <li class="cards_item">
+                <div class="card">
+                  <div class="card_image">
+                   <% if(mercedes[key].length==1){%>
+                    <div class="row">      
+                      <img src="assets/images/logo.jpg" alt="No images Yet" />                                                   
+                    </div>
+                    <%}else{%>
+                      <div class="row" style="padding-bottom: 30px;">
+                        <% for(i in mercedes[key]){ %>
+                          <div class="col-md-6 col-lg-6" style="margin-bottom:0%;padding: 0%;height: 130px;">
+                            <img src="assets/images/<%- mercedes[key][i]['image_path'] %>"  alt="image"/>
+                          </div>
+                          <%}%>                                            
+                      </div>
+                    <%}%>
+                  </div>
+                  <div class="card_content">
+                    <h2 class="card_title"></h2>
+                    <div class="card_text">
+                        <div class="row">                   
+                            <p class="col-6 badge branch">Vin Number</p>
+                            <p class="col-6 badge branch"><%- mercedes[key][0]['vin_number'] %></p>                  
+                        </div> 
+                        <div class="row">
+                            <p class="col-6 badge branch"> Color </p>
+                            <p class="col-6 badge branch"><%- mercedes[key][0]['color'] %></p>
+                        </div>
+                      <hr />
+                      <div class="row">
+                        <p class="col-6 badge branch">Model</p>
+                        <p class="col-6 badge branch"> <%- mercedes[key][0]['model'] %></p>
+                     </div>
+                     <div class="row">
+                        <p class="col-6 badge branch">Year</p>
+                        <p class="col-6 badge branch"><%- mercedes[key][0]['_year'] %></p>
+                     </div>
+                     <div class="row">
+                        <p class="col-6 badge branch">Price</p>
+                        <p class="col-6 badge branch"><%- mercedes[key][0]['price'] %></p>
+                     </div>
+                     <div class="row">
+                        <p class="col-6 badge branch">Transmission</p>
+                        <p class="col-6 badge branch"><%- mercedes[key][0]['transmission'] %></p>
+                     </div>
+                     <div class="row">
+                      <p class="col-6 badge branch">Fuel</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['fuel'] %></p>
+                    </div>
+                    <div class="row">
+                      <p class="col-6 badge branch">Number Of Cylinders</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['number_of_cylinders'] %></p>
+                    </div>
+                    <div class="row">
+                      <p class="col-6 badge branch">Mileage</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['mileage'] %></p>
+                    </div>
+                    <div class="row">
+                      <p class="col-6 badge branch">Drive</p>
+                      <p class="col-6 badge branch"><%- mercedes[key][0]['drive'] %></p>
+                    </div>
+                      <div class="row justify-content-center">
+                        <a href="/purchase?vin=<%- mercedes[key][0]['vin_number']  %>" class="btn btn-dark text-white">Purchase</a>
+                      </div>
+                     </div>
+                    </div>
+                  </div>
+              </li>
+              <% } %>
+            </ul>
         </div>
-      </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">GLC</span>
-            <img src="assets/images/benz3.jpg" alt="a Reuben sandwich on wax paper." />
-            <span class="card_price"><span>$</span>18</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Ultimate Reuben</h2>
-            <div class="card_text">
-              <p>All great meals take time, but this one takes it to the next level! More than 650 hours
-                of fermenting, brining, aging, and curing goes into each and every one of our legendary
-                Reuben sandwiches.
-              </p>
-              <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye
-                bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the
-                pickle. The only thing we didn't make on the premises is the toothpick ( but we're
-                looking into how to do that).
-              </p>
-              <hr />
-              <p>This unforgettable sandwich has all of the classic Reuben elements: <strong>corned beef</strong>, <strong>rye
-                  bread</strong>, <strong>creamy Russian dressing</strong>, <strong>sauerkraut</strong>, plus a <strong>sweet gherkin pickle</strong>.
-                No substitions please!
-              </p>
-              <p>Add a side of <strong>french fries</strong> or <strong>sweet potato fries</strong> for $2 more, or our
-                <strong>housemade pub chips</strong> for $1.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">AMG</span>
-            <img src="assets/images/background.jpg" alt="A side view of a plate of figs and berries." />
-            <span class="card_price"><span>$</span>16</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Fig &amp; Berry Plate</h2>
-            <div class="card_text">
-              <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
-                this refreshing, shareable dessert.
-              </p>
-              <hr />
-              <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
-                <strong>housemade chocolate sauce</strong>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">SUV</span>
-            <img src="assets/images/benz2.jpg" alt="mixed vegetable salad in a mason jar." />
-            <span class="card_price"><span>$</span>9</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Farmstand Salad</h2>
-            <div class="card_text">
-              <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of
-                leafy greens and seasonal vegetables, fresh from the farmer's market.
-              </p>
-              <hr />
-              <p>Served with your choice of dressing on the side: <strong>housemade ranch</strong>, <strong>cherry balsamic
-                  vinaigrette</strong>, <strong>creamy chipotle</strong>, <strong>avocado green goddess</strong>, or <strong>honey mustard</strong>. Add your choice
-                of protein for $2 more.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">GLC</span>
-            <img src="assets/images/benz3.jpg" alt="a Reuben sandwich on wax paper." />
-            <span class="card_price"><span>$</span>18</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Ultimate Reuben</h2>
-            <div class="card_text">
-              <p>All great meals take time, but this one takes it to the next level! More than 650 hours
-                of fermenting, brining, aging, and curing goes into each and every one of our legendary
-                Reuben sandwiches.
-              </p>
-              <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye
-                bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the
-                pickle. The only thing we didn't make on the premises is the toothpick ( but we're
-                looking into how to do that).
-              </p>
-              <hr />
-              <p>This unforgettable sandwich has all of the classic Reuben elements: <strong>corned beef</strong>, <strong>rye
-                  bread</strong>, <strong>creamy Russian dressing</strong>, <strong>sauerkraut</strong>, plus a <strong>sweet gherkin pickle</strong>.
-                No substitions please!
-              </p>
-              <p>Add a side of <strong>french fries</strong> or <strong>sweet potato fries</strong> for $2 more, or our
-                <strong>housemade pub chips</strong> for $1.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">AMG</span>
-            <img src="assets/images/background.jpg" alt="A side view of a plate of figs and berries." />
-            <span class="card_price"><span>$</span>16</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Fig &amp; Berry Plate</h2>
-            <div class="card_text">
-              <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
-                this refreshing, shareable dessert.
-              </p>
-              <hr />
-              <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
-                <strong>housemade chocolate sauce</strong>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">SUV</span>
-            <img src="assets/images/benz2.jpg" alt="mixed vegetable salad in a mason jar." />
-            <span class="card_price"><span>$</span>9</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Farmstand Salad</h2>
-            <div class="card_text">
-              <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of
-                leafy greens and seasonal vegetables, fresh from the farmer's market.
-              </p>
-              <hr />
-              <p>Served with your choice of dressing on the side: <strong>housemade ranch</strong>, <strong>cherry balsamic
-                  vinaigrette</strong>, <strong>creamy chipotle</strong>, <strong>avocado green goddess</strong>, or <strong>honey mustard</strong>. Add your choice
-                of protein for $2 more.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">GLC</span>
-            <img src="assets/images/benz3.jpg" alt="a Reuben sandwich on wax paper." />
-            <span class="card_price"><span>$</span>18</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Ultimate Reuben</h2>
-            <div class="card_text">
-              <p>All great meals take time, but this one takes it to the next level! More than 650 hours
-                of fermenting, brining, aging, and curing goes into each and every one of our legendary
-                Reuben sandwiches.
-              </p>
-              <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye
-                bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the
-                pickle. The only thing we didn't make on the premises is the toothpick ( but we're
-                looking into how to do that).
-              </p>
-              <hr />
-              <p>This unforgettable sandwich has all of the classic Reuben elements: <strong>corned beef</strong>, <strong>rye
-                  bread</strong>, <strong>creamy Russian dressing</strong>, <strong>sauerkraut</strong>, plus a <strong>sweet gherkin pickle</strong>.
-                No substitions please!
-              </p>
-              <p>Add a side of <strong>french fries</strong> or <strong>sweet potato fries</strong> for $2 more, or our
-                <strong>housemade pub chips</strong> for $1.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-  
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_image">
-            <span class="note">AMG</span>
-            <img src="assets/images/background.jpg" alt="A side view of a plate of figs and berries." />
-            <span class="card_price"><span>$</span>16</span>
-          </div>
-          <div class="card_content">
-            <h2 class="card_title">Fig &amp; Berry Plate</h2>
-            <div class="card_text">
-              <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
-                this refreshing, shareable dessert.
-              </p>
-              <hr />
-              <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
-                <strong>housemade chocolate sauce</strong>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    </div>   
+</div> 
 
-  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
