@@ -30,10 +30,10 @@ export async function getMercedesByVinNumber(vinNumber: string) {
 
 export async function checkUserBalance(price: number, email: string) {
     const sql: string =`
-    select cash_balance - ? as balance
+    select cash_balance as balance
     from buyer where email = ?
     `;
-    return await pool.query<RowDataPacket[]>(sql, [price, email]);
+    return await pool.query<RowDataPacket[]>(sql, [email]);
 }
 
 

@@ -101,22 +101,26 @@ mercedesRouter.get('/purchase',(req:Request,res:Response,next:NextFunction)=>{
     if(req.session.email != null){
         email = req.session.email;
     }
-    var balance = 0;
+    var balance:any ;
     
     checkUserBalance(price,email)
     .then((result: [RowDataPacket[], FieldPacket[]])=>{
         const [data] = result as RowDataPacket[];
-        console.log(data[0])
-         balance = data[0]['balance'];
-        if (balance>=0){
-            updateBalance(email,balance)
+        balance = data[0]
+         
+        if (balance.balance>=price){
+            var new_balance = balance.balance-price;
+            updateBalance(email,new_balance)
             .then((result: [ResultSetHeader, FieldPacket[]])=>{
                 updateBoughtMercedes(vin_number,email)
                 .then((result:[ResultSetHeader, FieldPacket[]])=>{
-                    req.flash("purchased","Congratulations, you just purchased a mercedes, your new balance is "+balance);
+                    req.flash("purchased","Congratulations, you just purchased a mercedes, your new balance is "+new_balance);
                     res.redirect("/purchase?vin="+vin_number);
                 });
             });
+        }else{
+            req.flash("lowbalance","Sorry your balance of $"+balance.balance+" cannot make a purchase, update your balance for a smooth ride");
+            res.redirect("/purchase?vin="+vin_number);
         }
     }).catch((error)=>next(error))
 })

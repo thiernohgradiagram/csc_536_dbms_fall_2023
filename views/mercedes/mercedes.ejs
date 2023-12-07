@@ -32,7 +32,7 @@
                             <p class="col-6 badge branch"> Color </p>
                             <p class="col-6 badge branch"><%- mercedes[key][0]['color'] %></p>
                         </div>
-                      <hr />
+                      <hr/>
                       <div class="row">
                         <p class="col-6 badge branch">Model</p>
                         <p class="col-6 badge branch"> <%- mercedes[key][0]['model'] %></p>
@@ -66,7 +66,7 @@
                       <p class="col-6 badge branch"><%- mercedes[key][0]['drive'] %></p>
                     </div>
                       <div class="row justify-content-center">
-                        <a href="/purchase?vin=<%- mercedes[key][0]['vin_number']  %>" class="btn btn-dark text-white">Purchase</a>
+                        <% if(user_role=='user'){ %> <a href="/purchase?vin=<%- mercedes[key][0]['vin_number']  %>" class="btn btn-dark text-white">Purchase</a><%}%>
                       </div>
                      </div>
                     </div>

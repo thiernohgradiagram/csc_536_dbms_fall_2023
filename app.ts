@@ -123,6 +123,7 @@ getAllBranches()
 
 app.get('/managebranch',(req: Request, res: Response, next: NextFunction)=>{
   var email = "";
+  var new_branch = "";
   if(req.session.email!=null){
     email = req.session.email.toString();
   }
@@ -135,8 +136,11 @@ app.get('/managebranch',(req: Request, res: Response, next: NextFunction)=>{
         return mercedes.vin_number;
     })
     var role = req.session.role;
-
-    res.render('branch/managebranch.ejs',{mercedes:values,user_role:role,branch_id:data[0]['branch_id']});
+    if(data[0].vin_number == null){
+      new_branch = "yes"
+    }
+    console.log(data[0])
+    res.render('branch/managebranch.ejs',{new_branch:new_branch,mercedes:values,user_role:role,branch_id:data[0]['branch_id']});
   }).catch((error:any)=>next(error))
   
 });
@@ -179,8 +183,8 @@ app.get('/purchase',(req:Request,res:Response,next:NextFunction)=>{
       var mercedes = data.group((element:any)=>{
         return element.vin_number
       })
-      console.log(mercedes);
-      res.render('purchase/purchase.ejs',{mercedes:mercedes,user_email:email,user_role:role});
+      
+      res.render('purchase/purchase.ejs',{vin:vin_number,mercedes:mercedes,user_email:email,user_role:role});
     })
 
     
