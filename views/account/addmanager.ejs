@@ -27,11 +27,11 @@
     <fieldset>
       <h2 class="fs-title">Address</h2>
       <h3 class="fs-subtitle"></h3>
-      <input type="text" readonly name="state" placeholder="State" />
+      <input type="text" required  name="state" placeholder="State" />
       <input type="text" required  name="city" placeholder="City" />
-      <input type="text" required ="street_name" placeholder="Street Name" />
-      <input type="text" required ="house_number" placeholder="House Number" />
-      <input type="text" required ="zip_code" placeholder="zip Code" />
+      <input type="text" required  name="street_name" placeholder="Street Name" />
+      <input type="text" required name ="house_number" placeholder="House Number" />
+      <input type="text" required name ="zip_code" placeholder="zip Code" />
       <%  if (branches.length != 0 ) {%>
         <input type="submit"   class="submit action-button"/>
      <% }else { %> <p style="color: red;">No available branches</p> <% } %>
