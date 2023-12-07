@@ -15,7 +15,7 @@ import { getAllUsers, getUsersByEmail } from './account/accountService';
 import { FieldPacket, RowDataPacket } from 'mysql2';
 import { User } from './account/user';
 import { getAllBranches, getAllMercedesByManagerEmail, getAllUsersWithoutBranch, getBranchesWithoutManagers } from './branch/branchService';
-import { getAllMercedes, getBranchAndMercedesCount, getMercedesByVinNumber } from './mercedes/mercedesService';
+import { getAllMercedes, getBranchAndMercedesCount, getBranchAndSaleCount, getMercedesByVinNumber, getModelAndCount, getModelAndSaleCount, getStatsCount } from './mercedes/mercedesService';
 import { Session } from 'express-session';
 
 
@@ -187,16 +187,62 @@ app.get('/purchase',(req:Request,res:Response,next:NextFunction)=>{
 })
 
 app.use('/graph',(req:Request,res:Response,next:NextFunction)=>{
+  var branch_names:any = [];
+  var branch_count:any = [];
+
+  var model_names:any = [];
+  var model_count:any = [];
+
+  var branch_sales_names:any = [];
+  var branch_sales_count:any = [];
+
+  var model_sales_names:any =[];
+  var model_sales_count:any =[];
+
   getBranchAndMercedesCount()
   .then((result: [RowDataPacket[], FieldPacket[]])=>{
     const [data] = result as RowDataPacket[];
-    var branch_names = [];
-    var branch_count = [];
     for(var i =0; i<data.length;i++){
       branch_names.push(data[i]['branch_name']);
       branch_count.push(data[i]['count']);
     }
-    res.render("graph/graph.ejs",{user_role:"user",branch_names:branch_names,branch_count:branch_count})
+
+    getModelAndCount()
+    .then((result: [RowDataPacket[], FieldPacket[]])=>{
+      const [data] = result as RowDataPacket[];
+      for(var i =0; i<data.length;i++){
+      model_names.push(data[i]['model']);
+      model_count.push(data[i]['count']);
+      }
+
+      getBranchAndSaleCount()
+      .then((result: [RowDataPacket[], FieldPacket[]])=>{
+      const [data] = result as RowDataPacket[];
+      for(var i =0; i<data.length;i++){
+      branch_sales_names.push(data[i]['branch_name']);
+      branch_sales_count.push(data[i]['count']);
+      }
+      getModelAndSaleCount()
+      .then((result: [RowDataPacket[], FieldPacket[]])=>{
+        const [data] = result as RowDataPacket[];
+        for(var i =0; i<data.length;i++){
+        model_sales_names.push(data[i]['model']);
+        model_sales_count.push(data[i]['count']);
+        }
+        getStatsCount()
+        .then((result: [RowDataPacket[], FieldPacket[]])=>{
+          const [data] = result as RowDataPacket[];
+          console.log(data);
+          res.render("graph/graph.ejs",{stats:data,user_role:"user",msale_names:model_sales_names,msale_count:model_sales_count,branch_sales:branch_sales_names,branch_sales_count:branch_sales_count,models:model_names,model_count:model_count,branch_names:branch_names,branch_count:branch_count})
+        })
+        
+      })
+     
+      })
+    
+      
+    })
+    
   })
   
 })

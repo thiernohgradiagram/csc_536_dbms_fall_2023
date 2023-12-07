@@ -75,8 +75,56 @@ export async function getBranchAndMercedesCount() {
     return await pool.query<RowDataPacket[]>(sql, []);
 }
 
+export async function getModelAndCount() {
+    const sql: string = `
+    select m.model,count(m.model) as count
+    from mercedes m
+    where m.email is null
+    group by m.model
+    `;
+    return await pool.query<RowDataPacket[]>(sql, []);
+}
 
+export async function getBranchAndSaleCount() {
+    const sql: string = `
+    select b.branch_name,count(b.branch_name) as count
+    from branch b
+    left outer join mercedes m 
+    on b.branch_id = m.branch_id
+    where m.email is not null
+    group by b.branch_name
+    `;
+    return await pool.query<RowDataPacket[]>(sql, []);
+}
 
+export async function getModelAndSaleCount() {
+    const sql: string = `
+    select m.model,count(m.model) as count
+    from mercedes m
+    where m.email is not null
+    group by m.model
+    `;
+    return await pool.query<RowDataPacket[]>(sql, []);
+}
+
+export async function getStatsCount() {
+    const sql: string = `
+    select "branch" as name,count(*) as count
+    from branch
+    union all 
+    select "mercedes" as name,count(*) as count 
+    from mercedes
+    union all 
+    select "user" as name,count(*) as count 
+    from _user where email not in (select email from manager)
+    union all 
+    select "sale" as name,count(*) as count 
+    from mercedes where email is not null
+    `;
+    return await pool.query<RowDataPacket[]>(sql, []);
+}
+
+ 
 //const mercedes1 = new Mercedes("benz-000-000-046","green","GLA 250 4MATIC SUV",2023,96778.99,"automatic","gas",4,1111,"fwd",null,4,null);
 //insertMercedes(mercedes1)
 //.then(result => console.log(result));

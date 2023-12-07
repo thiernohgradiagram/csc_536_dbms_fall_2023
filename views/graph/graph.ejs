@@ -1,6 +1,26 @@
 <%- include('../mainpage/mainpage.ejs',{role:user_role}) %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<div class="row justify-content-center">
+  <div class="col-md-3 col-lg-3 card">
+    <div class="row">
+      <div class="col-md-1 col-lg-1">
+        
+      </div>
+      <div class="col-md-1 col-lg-1">
 
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-lg-3 card">
+    sales
+  </div>
+  <div class="col-md-3 col-lg-3 card">
+    mercedes
+  </div>
+  <div class="col-md-3 col-lg-3 card">
+    models
+  </div>
+</div>
 <div class="row justify-content-center">
   <div class="col-md-5 col-lg-5 m-1 card">
     <canvas id="chart1" style="width:100%;max-width:600px"></canvas>
@@ -19,22 +39,31 @@
 </div>
 
 <script>
-  const xValues =  <%- JSON.stringify(branch_names) %>;
-  
-  const yValues = [<%- branch_count %>];
+  const xBranch_names =  <%- JSON.stringify(branch_names) %>;
+  const yBranch_values = [<%- branch_count %>];
+
+  const xModel_names = <%- JSON.stringify(models) %>;
+  const yModel_values = [<%- model_count %>];
+
+  const xBranch_sale_names = <%- JSON.stringify(branch_sales) %>;
+  const yBranchModel_values = [<%- branch_sales_count %>];
+
+  const xModel_sale_names = <%- JSON.stringify(msale_names) %>;
+  const yModel_sale_values = [<%- msale_count %>];
+
   const barColors = ["red", "green","blue","orange","brown"];
 
 new Chart("chart1", {
   type: "doughnut",
   data: {
-    labels: xValues,
+    labels: xBranch_names,
     datasets: [{
       backgroundColor: barColors,
-      data: yValues
+      data: yBranch_values
     }]
   },
   options: {
-    legend: {display: false},
+    legend: {display: true},
     title: {
       display: true,
       text: "Branches And Total Mercedes Count"
@@ -47,17 +76,17 @@ new Chart("chart1", {
 new Chart("chart2", {
   type: "bar",
   data: {
-    labels: xValues,
+    labels: xModel_names,
     datasets: [{
       backgroundColor: barColors,
-      data: yValues
+      data: yModel_values
     }]
   },
   options: {
     legend: {display: false},
     title: {
       display: true,
-      text: "World Wine Production 2018"
+      text: "Count of Models Across All Branches"
     }
   } 
 });
@@ -65,17 +94,17 @@ new Chart("chart2", {
 new Chart("chart3", {
   type: "bar",
   data: {
-    labels: xValues,
+    labels: xBranch_sale_names,
     datasets: [{
       backgroundColor: barColors,
-      data: yValues
+      data: yBranchModel_values
     }]
   },
   options: {
     legend: {display: false},
     title: {
       display: true,
-      text: "World Wine Production 2018"
+      text: "Branches And Total Sales"
     }
   } 
 });
@@ -83,17 +112,17 @@ new Chart("chart3", {
 new Chart("chart4", {
   type: "pie",
   data: {
-    labels: xValues,
+    labels: xModel_sale_names,
     datasets: [{
       backgroundColor: barColors,
-      data: yValues
+      data: yModel_sale_values
     }]
   },
   options: {
-    legend: {display: false},
+    legend: {display: true},
     title: {
       display: true,
-      text: "World Wine Production 2018"
+      text: "Sales By Mercedes Model"
     }
   } 
 });
